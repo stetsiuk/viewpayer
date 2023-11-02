@@ -1,4 +1,3 @@
-[submodule "viewpayer-frontend"]
-  path = viewpayer-frontend
-  url = https://github.com/ValentynFediuk/viewpayer-frontend.git
-  branch = main
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:ValentynFediuk/viewpayer-frontend.git
