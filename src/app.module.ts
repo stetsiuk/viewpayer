@@ -4,7 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthenticationModule } from '@/authentication/authentication.module';
 import { UserModule } from '@/models/user/user.module';
-
+import { PlanModule } from '@/models/plan/plan.module';
+import { SubscriptionModule } from '@/models/subscription/subscription.module';
+import { BalanceModule } from '@/models/balance/balance.module';
+import { ViewModule } from '@/models/view/view.module';
 import { getMongoConfig } from '@/configs/mongo.config';
 
 @Module({
@@ -20,8 +23,10 @@ import { getMongoConfig } from '@/configs/mongo.config';
 
     AuthenticationModule,
     UserModule,
+    PlanModule,
+    SubscriptionModule,
+    BalanceModule,
+    ViewModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}

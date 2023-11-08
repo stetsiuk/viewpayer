@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from '../repositories/user.repository';
 import { CreateUserDto } from '@/models/user/dto/create-user.dto';
+import { BalanceService } from '@/models/balance/services/balance.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly balanceService: BalanceService,
+  ) {}
 
   async getUserByEmailOrUsername(login: string) {
     return this.userRepository.getUserByEmailOrUsername(login);
@@ -16,11 +20,15 @@ export class UserService {
   }
 
   async createUser(dto: CreateUserDto) {
-    return await this.userRepository.createUser({
+    const newUser = await this.userRepository.createUser({
       username: dto.username,
       email: dto.email,
       password: dto.password,
     });
+
+    await this.balanceService.create(newUser.id);
+
+    return newUser;
   }
 
   async checkIsUserAlreadyRegistered(email: string, username: string): Promise<boolean> {
