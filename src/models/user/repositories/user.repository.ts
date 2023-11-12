@@ -18,7 +18,7 @@ export class UserRepository {
   async getUserById(id: string) {
     return await this.userModel
       .findById(id)
-      .populate<Balance>('balance', 'balance updatedAt -_id')
+      .populate<Balance>('balance', 'balance withdrawal updatedAt -_id')
       .populate<Subscription>({
         path: 'subscription',
         select: '-user',
