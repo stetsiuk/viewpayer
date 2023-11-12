@@ -1,11 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { ViewService } from '@/models/view/services/view.service';
 import { ViewVideoDto } from '@/models/view/dto/view-video.dto';
 import { Auth } from '@/authentication/guards/auth.guard';
 import { GetUserPayload } from '@/authentication/decorators/get-user-payload.decorator';
 import { RESPONSE_MESSAGE } from '@/common/messages';
+import { SuccessDto } from '@/common/dto/success.dto';
 
 @ApiTags('View')
 @Controller('view')
@@ -15,8 +16,9 @@ export class ViewController {
   @ApiOperation({
     summary: 'View video',
     description: 'Required: an authorized user with a active subscription and unused views for the current day',
-    security: [{ cookieAuth: [] }],
   })
+  @ApiResponse({ status: 200, type: SuccessDto })
+  @ApiResponse({ status: 403, description: 'The view limit has been reached' })
   @Post()
   @Auth()
   async viewVideo(@GetUserPayload('id') userId: string, @Body() { videoUrl }: ViewVideoDto) {

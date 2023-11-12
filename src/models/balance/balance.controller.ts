@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
-import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { Auth } from '@/authentication/guards/auth.guard';
 import { GetUserPayload } from '@/authentication/decorators/get-user-payload.decorator';
@@ -12,7 +12,6 @@ import { SuccessDto } from '@/common/dto/success.dto';
 
 @Controller('balance')
 @ApiTags('Balance')
-@ApiCookieAuth()
 export class BalanceController {
   constructor(
     private readonly balanceService: BalanceService,

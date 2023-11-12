@@ -16,7 +16,7 @@ export class Pagination {
   }
 
   public async wrapPagination(results: HydratedDocument<any> | HydratedDocument<any>[], model: Model<any>) {
-    const totalCount = await model.countDocuments();
+    const totalCount = await model.countDocuments(this.getFilter());
     const totalPages = this.limit ? Math.ceil(totalCount / this.limit) : undefined;
     const currentPage = this.limit && this.page ? Number(this.page) : undefined;
     return {

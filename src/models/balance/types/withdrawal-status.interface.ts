@@ -1,1 +1,5 @@
-export type WithdrawalStatus = 'waiting' | 'success' | 'rejected';
+export enum WithdrawalStatus {
+  Waiting = 'waiting',
+  Success = 'success',
+  Rejected = 'rejected',
+}

@@ -13,7 +13,6 @@ export class UserController {
   @ApiOperation({
     summary: 'Get information about your user',
     description: 'Required: an authorized user',
-    security: [{ cookieAuth: [] }],
   })
   @Get()
   @Auth()

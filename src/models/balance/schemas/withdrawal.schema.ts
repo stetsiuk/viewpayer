@@ -15,8 +15,11 @@ export class Withdrawal {
   @Prop({ type: Types.ObjectId, ref: BalanceHistory.name, required: true })
   balanceHistory: BalanceHistory;
 
-  @Prop({ required: true })
+  @Prop({ enum: WithdrawalStatus, required: true })
   status: WithdrawalStatus;
+
+  @Prop({ default: '' })
+  description: string;
 
   @Prop({ required: true })
   ownerName: string;

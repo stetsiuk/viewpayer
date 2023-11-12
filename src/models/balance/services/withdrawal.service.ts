@@ -5,6 +5,7 @@ import { CreateWithdrawalData } from '@/models/balance/types/create-withdrawal.i
 import { BalanceHistoryService } from '@/models/balance/services/balance-history.service';
 import { BalanceService } from '@/models/balance/services/balance.service';
 import { PaginationQueryDto } from '@/common/dto/pagination.dto';
+import { UpdateWithdrawalDto } from '@/models/balance/dto/update-withdrawal.dto';
 
 @Injectable()
 export class WithdrawalService {
@@ -41,5 +42,9 @@ export class WithdrawalService {
       amount,
       balanceHistory: balanceHistory.id,
     });
+  }
+
+  async updateOne(id: string, data: UpdateWithdrawalDto) {
+    return await this.withdrawalRepository.updateOne(id, data);
   }
 }

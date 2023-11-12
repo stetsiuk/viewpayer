@@ -19,7 +19,6 @@ export class PlanController {
   @ApiOperation({
     summary: 'Create a new plan',
     description: 'Required: authorized admin',
-    security: [{ cookieAuth: [] }],
   })
   @Post()
   @Auth(['admin'])

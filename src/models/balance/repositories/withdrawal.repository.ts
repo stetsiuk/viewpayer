@@ -6,6 +6,7 @@ import { CreateWithdrawal } from '@/models/balance/types/create-withdrawal.inter
 import { Withdrawal } from '@/models/balance/schemas/withdrawal.schema';
 import { PaginationQueryDto } from '@/common/dto/pagination.dto';
 import { Pagination } from '@/common/utils/pagination';
+import { UpdateWithdrawalDto } from '@/models/balance/dto/update-withdrawal.dto';
 
 @Injectable()
 export class WithdrawalRepository {
@@ -28,5 +29,18 @@ export class WithdrawalRepository {
       ownerName: data.ownerName,
     });
     return newBalance.save();
+  }
+
+  async updateOne(id: string, data: UpdateWithdrawalDto) {
+    return await this.withdrawalModel
+      .findByIdAndUpdate(
+        id,
+        {
+          status: data.status,
+          description: data.description,
+        },
+        { new: true },
+      )
+      .exec();
   }
 }
