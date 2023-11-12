@@ -2,41 +2,53 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { CreateUserDto } from '@/models/user/dto/create-user.dto';
+import { CreateUserData } from '@/models/user/types/create-user.interface';
 import { User } from '@/models/user/schemas/user.schema';
+import { Subscription } from '@/models/subscription/schemas/subscription.schema';
+import { Balance } from '@/models/balance/schemas/balance.schema';
 
 @Injectable()
 export class UserRepository {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
+  async findUserByReferralCode(referralCode: string) {
+    return await this.userModel.findOne({ referralCode }).exec();
+  }
+
   async getUserById(id: string) {
-    return this.userModel.findById(id).select('-password');
+    return await this.userModel
+      .findById(id)
+      .populate<Balance>('balance', 'balance updatedAt -_id')
+      .populate<Subscription>({
+        path: 'subscription',
+        select: '-user',
+        populate: {
+          path: 'plan',
+          select: '-createdAt -updatedAt',
+        },
+      })
+      .select('-hashPassword')
+      .exec();
   }
 
-  async getUserByEmail(email: string) {
-    return this.userModel.findOne({ email });
+  async getUserByPhoneNumber(phoneNumber: string) {
+    return await this.userModel.findOne({ phoneNumber }).exec();
   }
 
-  async getUserByUsername(username: string) {
-    return this.userModel.findOne({ username });
+  async getUserByReferralCode(referralCode: string) {
+    return await this.userModel.findOne({ referralCode }).exec();
   }
 
-  async getUserByEmailOrUsername(login: string) {
-    return this.userModel.findOne({
-      $or: [{ username: login }, { email: login }],
-    });
-  }
-
-  async createUser(dto: CreateUserDto) {
-    const { username, email, password } = dto;
+  async createUser(data: CreateUserData) {
+    const { phoneNumber, hashPassword, referralCode, referredBy, role } = data;
 
     const user = await this.userModel.create({
-      username,
-      email,
-      password,
-      role: 'user',
+      phoneNumber,
+      hashPassword,
+      referralCode,
+      referredBy,
+      role,
     });
-
     return user.save();
   }
 }

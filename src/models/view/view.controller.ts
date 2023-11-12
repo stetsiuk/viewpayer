@@ -12,7 +12,11 @@ import { RESPONSE_MESSAGE } from '@/common/messages';
 export class ViewController {
   constructor(private readonly viewService: ViewService) {}
 
-  @ApiOperation({ summary: 'View video' })
+  @ApiOperation({
+    summary: 'View video',
+    description: 'Required: an authorized user with a active subscription and unused views for the current day',
+    security: [{ cookieAuth: [] }],
+  })
   @Post()
   @Auth()
   async viewVideo(@GetUserPayload('id') userId: string, @Body() { videoUrl }: ViewVideoDto) {

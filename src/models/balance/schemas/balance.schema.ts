@@ -7,7 +7,7 @@ export type BalanceDocument = HydratedDocument<Balance>;
 
 @Schema({ timestamps: true, versionKey: false })
 export class Balance {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   userId: User;
 
   @Prop({
@@ -16,6 +16,13 @@ export class Balance {
     },
   })
   balance: number;
+
+  @Prop({
+    default() {
+      return 0;
+    },
+  })
+  withdrawal: number;
 }
 
 export const BalanceSchema = SchemaFactory.createForClass(Balance);

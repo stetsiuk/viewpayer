@@ -6,13 +6,13 @@ import { BalanceHistory } from '@/models/balance/schemas/balance-history.schema'
 
 export type ViewDocument = HydratedDocument<View>;
 
-@Schema({ timestamps: true, versionKey: false })
+@Schema({ timestamps: { createdAt: true }, versionKey: false })
 export class View {
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
-  userId: User;
+  user: User;
 
   @Prop({ type: Types.ObjectId, ref: BalanceHistory.name, required: true })
-  balanceHistoryId: BalanceHistory;
+  balanceHistory: BalanceHistory;
 
   @Prop({ required: true })
   videoUrl: string;

@@ -22,6 +22,7 @@ export class SubscriptionRepository {
     return await this.subscriptionModel.create({
       user: data.userId,
       plan: data.planId,
+      status: data.status,
     });
   }
 

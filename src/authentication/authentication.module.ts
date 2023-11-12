@@ -12,6 +12,7 @@ import { getJwtConfig } from '@/configs/jwt.config';
 @Module({
   controllers: [AuthenticationController],
   providers: [AuthenticationService, BcryptService, AccessTokenStrategy],
+  exports: [BcryptService],
   imports: [
     UserModule,
     JwtModule.registerAsync({

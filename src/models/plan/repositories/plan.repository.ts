@@ -10,11 +10,19 @@ export class PlanRepository {
   constructor(@InjectModel(Plan.name) private planModel: Model<Plan>) {}
 
   async findAll() {
-    return this.planModel.find();
+    return await this.planModel.find().exec();
   }
 
   async create(dto: CreatePlanDto) {
     const newPlan = await this.planModel.create(dto);
     return newPlan.save();
+  }
+
+  async findFreePlan() {
+    return await this.planModel.findOne({ price: 0 }).exec();
+  }
+
+  async findMaximumPlan() {
+    return await this.planModel.findOne().sort('-viewCount').exec();
   }
 }

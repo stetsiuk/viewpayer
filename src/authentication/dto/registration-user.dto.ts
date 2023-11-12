@@ -1,16 +1,16 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
 export class RegistrationUserDto {
-  @ApiProperty({ default: 'alex@gmail.com' })
+  @ApiProperty({ default: '+380991416522' })
   @IsString()
-  email: string;
-
-  @ApiProperty({ default: 'alex' })
-  @IsString()
-  username: string;
+  phoneNumber: string;
 
   @ApiProperty({ default: '123456' })
   @IsString()
   password: string;
+
+  @ApiPropertyOptional({ default: '' })
+  @IsString()
+  referralCode?: string;
 }

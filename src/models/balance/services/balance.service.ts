@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { BalanceRepository } from '@/models/balance/repositories/balance.repository';
+import { UpdateBalance } from '@/models/balance/types/balance.interface';
 
 @Injectable()
 export class BalanceService {
@@ -14,7 +15,7 @@ export class BalanceService {
     return await this.balanceRepository.create(userId);
   }
 
-  async update(userId: string, amount: number) {
-    return await this.balanceRepository.updateAmount(userId, amount);
+  async update(data: UpdateBalance) {
+    return await this.balanceRepository.update(data);
   }
 }

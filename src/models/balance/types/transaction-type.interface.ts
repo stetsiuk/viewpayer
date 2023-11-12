@@ -1,1 +1,1 @@
-export type TransactionType = 'viewing';
+export type TransactionType = 'viewing' | 'withdrawal';

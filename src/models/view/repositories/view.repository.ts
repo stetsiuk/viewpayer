@@ -10,13 +10,13 @@ export class ViewRepository {
   constructor(@InjectModel(View.name) private viewModel: Model<View>) {}
 
   async findAllForCurrentDay(userId: string) {
-    return await this.viewModel.find({ userId, createdAt: { $gte: new Date().toDateString() } }).exec();
+    return await this.viewModel.find({ user: userId, createdAt: { $gte: new Date().toDateString() } }).exec();
   }
 
   async create(data: ViewVideoCreate) {
     const newView = await this.viewModel.create({
-      userId: data.userId,
-      balanceHistoryId: data.balanceHistoryId,
+      user: data.userId,
+      balanceHistory: data.balanceHistoryId,
       videoUrl: data.videoUrl,
     });
     return newView.save();

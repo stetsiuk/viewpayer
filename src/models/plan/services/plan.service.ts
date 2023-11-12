@@ -14,4 +14,12 @@ export class PlanService {
   async create(dto: CreatePlanDto) {
     return await this.planRepository.create(dto);
   }
+
+  async findFreePlan() {
+    return await this.planRepository.findFreePlan();
+  }
+
+  async findMaximumPlan() {
+    return await this.planRepository.findMaximumPlan();
+  }
 }

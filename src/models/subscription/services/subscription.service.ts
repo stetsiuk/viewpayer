@@ -1,10 +1,19 @@
-import { BadRequestException, Injectable, MethodNotAllowedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  MethodNotAllowedException,
+} from '@nestjs/common';
 import { SubscriptionRepository } from '@/models/subscription/repositories/subscription.repository';
 import { StartSubscriptionData } from '@/models/subscription/types/start-subscription.interface';
+import { PlanService } from '@/models/plan/services/plan.service';
 
 @Injectable()
 export class SubscriptionService {
-  constructor(private readonly subscriptionRepository: SubscriptionRepository) {}
+  constructor(
+    private readonly subscriptionRepository: SubscriptionRepository,
+    private readonly planService: PlanService,
+  ) {}
 
   async getUserSubscription(userId: string) {
     return {
@@ -29,5 +38,29 @@ export class SubscriptionService {
 
   async getUserSubscriptionWithPlan(userId: string) {
     return await this.subscriptionRepository.findWithPlanByUserId(userId);
+  }
+
+  async startFreeSubscription(userId: string) {
+    const freePlan = await this.planService.findFreePlan();
+    if (!freePlan) {
+      throw new InternalServerErrorException('Free plan is not exist.');
+    }
+    return await this.subscriptionRepository.create({
+      userId,
+      planId: freePlan.id,
+      status: 'active',
+    });
+  }
+
+  async startMaximumSubscription(userId: string) {
+    const maximumPlan = await this.planService.findMaximumPlan();
+    if (!maximumPlan) {
+      throw new InternalServerErrorException('There is no plan');
+    }
+    return await this.subscriptionRepository.create({
+      userId,
+      planId: maximumPlan.id,
+      status: 'active',
+    });
   }
 }

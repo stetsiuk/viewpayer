@@ -9,6 +9,7 @@ import { PlanRepository } from '@/models/plan/repositories/plan.repository';
 @Module({
   controllers: [PlanController],
   providers: [PlanService, PlanRepository],
+  exports: [PlanService],
   imports: [MongooseModule.forFeature([{ name: Plan.name, schema: PlanSchema }])],
 })
 export class PlanModule {}

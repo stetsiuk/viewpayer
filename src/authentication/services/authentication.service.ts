@@ -19,35 +19,37 @@ export class AuthenticationService {
   ) {}
 
   public async registration(dto: RegistrationUserDto) {
-    const { email, username, password } = dto;
+    const { phoneNumber, password, referralCode } = dto;
 
-    const isUserRegistered = await this.userService.checkIsUserAlreadyRegistered(email, username);
+    const isUserRegistered = await this.userService.getUserByPhoneNumber(phoneNumber);
 
     if (isUserRegistered) {
       throw new BadRequestException(ERROR_MESSAGE.AUTH_USER_ALREADY_REGISTERED);
     }
 
+    const referralUser = await this.userService.getUserByReferralCode(referralCode);
+
     const hashPassword = await this.bcryptService.hashPassword(password);
 
-    await this.userService.createUser({
-      username,
-      email,
-      password: hashPassword,
+    await this.userService.registerUser({
+      phoneNumber,
+      hashPassword,
+      referredBy: referralUser ? referralUser.id : '',
     });
   }
 
   public async login(dto: LoginUserDto) {
-    const { login, password } = dto;
+    const { phoneNumber, password } = dto;
 
-    const user = await this.userService.getUserByEmailOrUsername(login);
+    const user = await this.userService.getUserByPhoneNumber(phoneNumber);
     if (!user) {
       throw new BadRequestException(ERROR_MESSAGE.AUTH_USER_NOT_FOUND);
     }
-    const isPasswordCorrect = this.bcryptService.comparePassword(user.password, password);
+    const isPasswordCorrect = this.bcryptService.comparePassword(user.hashPassword, password);
     if (!isPasswordCorrect) {
       throw new BadRequestException(ERROR_MESSAGE.AUTH_PASSWORD_INVALID);
     }
-    user.password = undefined;
+    user.hashPassword = undefined;
 
     return user;
   }
@@ -56,6 +58,7 @@ export class AuthenticationService {
     try {
       return await this.jwtService.signAsync(payload);
     } catch (e) {
+      console.log(e);
       throw new InternalServerErrorException();
     }
   }

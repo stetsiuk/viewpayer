@@ -9,7 +9,7 @@ export type SubscriptionDocument = HydratedDocument<Subscription>;
 
 @Schema({ timestamps: { createdAt: true }, versionKey: false })
 export class Subscription {
-  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
+  @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   user: User;
 
   @Prop({ type: Types.ObjectId, ref: Plan.name, required: true })

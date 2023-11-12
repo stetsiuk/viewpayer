@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Post } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { Auth } from '@/authentication/guards/auth.guard';
 import { SubscriptionService } from '@/models/subscription/services/subscription.service';
@@ -12,12 +12,10 @@ import { RESPONSE_MESSAGE } from '@/common/messages';
 export class SubscriptionController {
   constructor(private readonly subscriptionService: SubscriptionService) {}
 
-  @Get()
-  @Auth()
-  async getSubscription(@GetUserPayload('id') userId: string) {
-    return this.subscriptionService.getUserSubscription(userId);
-  }
-
+  @ApiOperation({
+    summary: 'Start new subscription',
+    description: 'Required: an authorized user',
+  })
   @Post('start')
   @Auth()
   async startSubscription(@GetUserPayload('id') userId: string, @Body() dto: CreateSubscriptionDto) {
@@ -25,6 +23,10 @@ export class SubscriptionController {
     return RESPONSE_MESSAGE.SUCCESSFUL;
   }
 
+  @ApiOperation({
+    summary: 'Cancel your current subscription',
+    description: 'Required: an authorized user',
+  })
   @Delete('cancel')
   @Auth()
   async cancelSubscription(@GetUserPayload('id') userId: string) {

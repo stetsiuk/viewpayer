@@ -28,7 +28,7 @@ export class ViewService {
     }
     const newBalanceHistory = await this.balanceHistoryService.changeBalance({
       userId: data.userId,
-      amount: 10,
+      amount: 10000,
       type: 'viewing',
     });
     await this.viewRepository.create({
