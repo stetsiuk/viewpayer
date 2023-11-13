@@ -8,7 +8,7 @@ export class BcryptService {
     return await hash(password, salt);
   }
 
-  async comparePassword(hashPassword: string, userPassword: string) {
-    return await compare(hashPassword, userPassword);
+  async comparePassword(userPassword: string, hashPassword: string) {
+    return await compare(userPassword, hashPassword);
   }
 }

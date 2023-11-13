@@ -45,7 +45,7 @@ export class AuthenticationService {
     if (!user) {
       throw new BadRequestException(ERROR_MESSAGE.AUTH_USER_NOT_FOUND);
     }
-    const isPasswordCorrect = this.bcryptService.comparePassword(user.hashPassword, password);
+    const isPasswordCorrect = await this.bcryptService.comparePassword(password, user.hashPassword);
     if (!isPasswordCorrect) {
       throw new BadRequestException(ERROR_MESSAGE.AUTH_PASSWORD_INVALID);
     }
