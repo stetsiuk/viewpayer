@@ -9,6 +9,10 @@ import { CreatePlanDto } from '@/models/plan/dto/create-plan.dto';
 export class PlanRepository {
   constructor(@InjectModel(Plan.name) private planModel: Model<Plan>) {}
 
+  async findById(id: string) {
+    return await this.planModel.findById(id).exec();
+  }
+
   async findAll() {
     return await this.planModel.find().exec();
   }

@@ -29,12 +29,12 @@ export class UserSeeder implements OnModuleInit {
   private async seedData() {
     const userData = [
       {
-        phoneNumber: '111',
-        password: 'qwe=p23na.psr!r',
+        phoneNumber: 'admin',
+        password: '123456',
         role: 'admin' as UserRole,
       },
       {
-        phoneNumber: '+380991416522',
+        phoneNumber: 'user',
         password: '123456',
         role: 'user' as UserRole,
       },

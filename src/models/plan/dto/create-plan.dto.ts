@@ -1,10 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsString } from 'class-validator';
+
+import { PlanType } from '@/models/plan/types/plan-type.interface';
 
 export class CreatePlanDto {
   @ApiProperty({ default: 'Basic' })
   @IsString()
   name: string;
+
+  @ApiProperty({ enum: PlanType })
+  @IsEnum(PlanType)
+  type: PlanType;
 
   @ApiProperty({ default: 'The basic plan' })
   @IsString()

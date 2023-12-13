@@ -11,6 +11,7 @@ import { PlanModule } from '@/models/plan/plan.module';
 import { SubscriptionModule } from '@/models/subscription/subscription.module';
 import { BalanceModule } from '@/models/balance/balance.module';
 import { ViewModule } from '@/models/view/view.module';
+import { ImageModule } from '@/models/image/image.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ViewModule } from '@/models/view/view.module';
     SubscriptionModule,
     BalanceModule,
     ViewModule,
+    ImageModule,
   ],
 })
 export class AppModule {}

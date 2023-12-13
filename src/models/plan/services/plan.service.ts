@@ -7,6 +7,10 @@ import { CreatePlanDto } from '@/models/plan/dto/create-plan.dto';
 export class PlanService {
   constructor(private readonly planRepository: PlanRepository) {}
 
+  async findById(id: string) {
+    return await this.planRepository.findById(id);
+  }
+
   async findAll() {
     return await this.planRepository.findAll();
   }
